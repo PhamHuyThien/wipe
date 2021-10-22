@@ -1,7 +1,7 @@
 
 function Attachments({ attachments }) {
-    return attachments.map(element => {
-        return Attachment(element);
+    return attachments.map((element, i) => {
+        return <Attachment {...element} key={i}></Attachment>
     });
 
     function Attachment({
