@@ -1,7 +1,37 @@
 import { useHistory } from "react-router";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import Server from "../../constaint/Server";
+import Toast from "../../util/Toast";
+import { useDispatch } from "react-redux";
+import { loadingAuto, loadingOpen } from "../../redux/LoadingSlice";
 
 function Register() {
+    const dispatch = useDispatch();
     const history = useHistory();
+    const { register, handleSubmit } = useForm();
+
+    function onSubmitForm(forms) {
+        registerHandler(forms);
+    }
+
+    async function registerHandler(form = { username: "", password: "", email: "" }) {
+        dispatch(loadingOpen(true));
+        let result = await axios.post(Server.API_REGISTER, form).catch(function (err) {
+            return { data: err.response.data };
+        });
+        dispatch(loadingOpen(false));
+        Toast.fire({
+            icon: result.data.status === true ? 'success' : 'error',
+            title: result.data.message
+        }).then(function () {
+            if (result.data.status === true) {
+                dispatch(loadingAuto(1000));
+                history.push("/login");
+            }
+        });
+    }
+
     function onClickLoginHandler() {
         history.push("/login");
     }
@@ -27,24 +57,24 @@ function Register() {
                                             </button>
                                         </div>
                                         <p>or use your email for registration:</p>
-                                        <form className="signup">
+                                        <form className="signup" onSubmit={handleSubmit(onSubmitForm)}>
                                             <div className="form-parent">
                                                 <div className="form-group">
-                                                    <input type="text" id="inputName" className="form-control" placeholder="Username" required />
+                                                    <input type="text" {...register("username")} className="form-control" placeholder="Username" required />
                                                     <button className="btn icon"><i className="material-icons">person_outline</i></button>
                                                 </div>
                                                 <div className="form-group">
-                                                    <input type="email" id="inputEmail" className="form-control" placeholder="Email Address" required />
+                                                    <input type="email" {...register("email")} className="form-control" placeholder="Email Address" required />
                                                     <button className="btn icon"><i className="material-icons">mail_outline</i></button>
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <input type="password" id="inputPassword" className="form-control" placeholder="Password" required />
+                                                <input type="password" {...register("password")} className="form-control" placeholder="Password" required />
                                                 <button className="btn icon"><i className="material-icons">lock_outline</i></button>
                                             </div>
-                                            <button type="submit" className="btn button" formAction="index-2.html">Sign Up</button>
+                                            <button type="submit" className="btn button" formAction="#">Sign Up</button>
                                             <div className="callout">
-                                                <span>Already a member? <a href="sign-in.html">Sign In</a></span>
+                                                <span>Already a member? <a href="#">Sign In</a></span>
                                             </div>
                                         </form>
                                     </div>

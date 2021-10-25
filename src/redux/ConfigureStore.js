@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import NavigationSlide from "./NavigationSlide";
-
+import LoadingSlice from "./LoadingSlice";
 const ConfigureStore = configureStore({
     reducer: {
-        navigation: NavigationSlide
+        loading: LoadingSlice,
     }
 });
 
