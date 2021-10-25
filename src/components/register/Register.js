@@ -74,7 +74,7 @@ function Register() {
                                             </div>
                                             <button type="submit" className="btn button" formAction="#">Sign Up</button>
                                             <div className="callout">
-                                                <span>Already a member? <a href="#">Sign In</a></span>
+                                                <span>Already a member? <button>Sign In</button></span>
                                             </div>
                                         </form>
                                     </div>
@@ -88,7 +88,7 @@ function Register() {
                                 <div className="preference">
                                     <h2>Welcome Back!</h2>
                                     <p>To keep connected with your friends please login with your personal info.</p>
-                                    <a href="#" className="btn button" onClick={onClickLoginHandler}>Sign In</a>
+                                    <button href="#" className="btn button" onClick={onClickLoginHandler}>Sign In</button>
                                 </div>
                             </div>
                         </div>
