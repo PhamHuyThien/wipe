@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 
-function ListFriendRequest() {
+function ListFriend() {
     const listFriendRequest = useSelector(state => state.listFriendRequest.list);
     return listFriendRequest.map((friend) => {
-        return <FriendRequest></FriendRequest>;
+        return <Friend></Friend>;
     });
 }
-function FriendRequest({
+function Friend({
     avatar, firstName, lastName,
 }) {
     return (
@@ -26,4 +26,4 @@ function FriendRequest({
     );
 }
 
-export default ListFriendRequest;
+export default ListFriend;
