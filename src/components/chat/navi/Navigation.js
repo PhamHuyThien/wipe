@@ -1,9 +1,14 @@
-import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
+import SocketUtil from "../../../util/SocketUtil";
 
 function Navigation() {
-    const history = useHistory();
+    const avatar = useSelector((state) => state.userInfo.userInfo.profile.avatar.url);
     function onClickLogoutHandler() {
-        history.push("/login");
+        if (SocketUtil.socket != null) {
+            SocketUtil.socket.disconnect();
+        }
+        localStorage.removeItem("token");
+        window.location.href = "/";
     }
     return (
         <div className="navigation">
@@ -11,13 +16,13 @@ function Navigation() {
                 <div className="inside">
                     <div className="nav nav-tab menu">
                         <button className="btn">
-                            <img className="avatar-xl" src="assets/img/avatars/avatar-male-1.jpg" alt="avatar" />
+                            <img className="avatar-xl" src={avatar} alt="avatar" />
                         </button>
                         <a href="#members" data-toggle="tab">
                             <i className="material-icons">account_circle</i>
                         </a>
                         <a href="#discussions" data-toggle="tab">
-                            <i className="material-icons active">chat_bubble_outline</i>
+                            <i className="material-icons">chat_bubble_outline</i>
                         </a>
                         <a href="#notifications" data-toggle="tab" className="f-grow1">
                             <i className="material-icons">notifications_none</i>

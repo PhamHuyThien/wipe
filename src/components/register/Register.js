@@ -4,20 +4,16 @@ import axios from "axios";
 import Server from "../../constaint/Server";
 import Toast from "../../util/Toast";
 import { useDispatch } from "react-redux";
-import { loadingAuto, loadingOpen } from "../../redux/LoadingSlice";
+import { loadingOpen } from "../../redux/LoadingSlice";
 
 function Register() {
     const dispatch = useDispatch();
     const history = useHistory();
     const { register, handleSubmit } = useForm();
 
-    function onSubmitForm(forms) {
-        registerHandler(forms);
-    }
-
-    async function registerHandler(form = { username: "", password: "", email: "" }) {
+    async function onSubmitForm(forms) {
         dispatch(loadingOpen(true));
-        let result = await axios.post(Server.API_REGISTER, form).catch(function (err) {
+        let result = await axios.post(Server.API_REGISTER, forms).catch(function (err) {
             return { data: err.response.data };
         });
         dispatch(loadingOpen(false));
@@ -26,7 +22,6 @@ function Register() {
             title: result.data.message
         }).then(function () {
             if (result.data.status === true) {
-                dispatch(loadingAuto(1000));
                 history.push("/login");
             }
         });
@@ -72,7 +67,7 @@ function Register() {
                                                 <input type="password" {...register("password")} className="form-control" placeholder="Password" required />
                                                 <button className="btn icon"><i className="material-icons">lock_outline</i></button>
                                             </div>
-                                            <button type="submit" className="btn button" formAction="#">Sign Up</button>
+                                            <button type="submit" className="btn button">Sign Up</button>
                                             <div className="callout">
                                                 <span>Already a member? <button>Sign In</button></span>
                                             </div>

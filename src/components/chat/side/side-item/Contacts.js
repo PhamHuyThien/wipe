@@ -1,4 +1,5 @@
-import AddFriends from "./contact/AddFriends";
+import ListFriend from "./contact/ListFriend";
+import ListFriendRequest from "./contact/ListFriendRequest";
 
 function Contacts() {
     return (
@@ -18,32 +19,8 @@ function Contacts() {
             <div className="contacts">
                 <h1>Contacts</h1>
                 <div className="list-group" id="contacts" role="tablist">
-                    <a href="#" className="filterMembers all online contact" data-toggle="list">
-                        <img className="avatar-md" src="assets/img/avatars/avatar-female-1.jpg" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar" />
-                        <div className="status">
-                            <i className="material-icons online">fiber_manual_record</i>
-                        </div>
-                        <div className="data">
-                            <h5>Janette Dalton</h5>
-                            <p>Sofia, Bulgaria</p>
-                        </div>
-                        <div className="person-add">
-                            <i className="material-icons">person</i>
-                        </div>
-                    </a>
-                    <a href="#" className="filterMembers all offline contact" data-toggle="list">
-                        <img className="avatar-md" src="assets/img/avatars/avatar-male-4.jpg" data-toggle="tooltip" data-placement="top" title="Mildred" alt="avatar" />
-                        <div className="status">
-                            <i className="material-icons offline">fiber_manual_record</i>
-                        </div>
-                        <div className="data">
-                            <h5>Mildred Bennett</h5>
-                            <p>London, United Kingdom</p>
-                        </div>
-                        <div className="person-add">
-                            <i className="material-icons">person</i>
-                        </div>
-                    </a>
+                    <ListFriendRequest></ListFriendRequest>
+                    {/* <ListFriend></ListFriend> */}
                 </div>
             </div>
         </div>
