@@ -14,6 +14,6 @@ export const ListFriendSlice = createSlice({
 });
 
 
-export const { loadingOpen } = ListFriendSlice.actions;
+export const { listFriendSet } = ListFriendSlice.actions;
 
 export default ListFriendSlice.reducer;

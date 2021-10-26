@@ -7,7 +7,8 @@ const Server = {
     API_CHECK_TOKEN: API + "/api/v1/auth/check-token",
     API_SEARCH_FRIEND: API + "/api/v1/friends/search-friend",
     API_SEND_FRIEND: API + "/api/v1/friends/send-friend",
-    API_LIST_FRIEND_REQUEST:  API + "/api/v1/friends/list-friend-request",
+    API_LIST_FRIEND_REQUEST: API + "/api/v1/friends/list-friend-request",
+    API_ACCEPT_FRIEND: API + "/api/v1/friends/accept-friend",
 }
 
 export default Server;

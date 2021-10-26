@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { listFriendRequestSet } from "../../redux/ListFriendRequestSlice";
+import { listFriendSet } from "../../redux/ListFriendSlice";
 import { userInfoSet } from "../../redux/UserInfoSlice";
 import SocketUtil from "../../util/SocketUtil";
 import Toast from "../../util/Toast";
@@ -19,6 +20,7 @@ function ChatForm() {
         SocketUtil.socket.subscribe(`/messages/${SocketUtil.token}`, SocketCallback);
         SocketUtil.socket.send(`/app/${SocketUtil.token}/user-info`);
         SocketUtil.socket.send(`/app/${SocketUtil.token}/list-friend-request`);
+        SocketUtil.socket.send(`/app/${SocketUtil.token}/list-friend`);
     }, []);
 
     function SocketCallback(data) {
@@ -32,6 +34,11 @@ function ChatForm() {
             case "LIST_FRIEND_REQUEST":
                 if (checkResponse(json)) {
                     dispatch(listFriendRequestSet(json.data));
+                }
+                break;
+            case "LIST_FRIEND":
+                if (checkResponse(json)) {
+                    dispatch(listFriendSet(json.data));
                 }
                 break;
             default:

@@ -1,8 +1,9 @@
+import { onClickLogoutHandler } from "../../../navi/Navigation";
 
 function PowerOffSetting() {
     return (
         <div className="category">
-            <a href="sign-in.html" className="title collapsed">
+            <a href="#" className="title collapsed" onClick={onClickLogoutHandler}>
                 <i className="material-icons md-30 online">power_settings_new</i>
                 <div className="data">
                     <h5>Power Off</h5>

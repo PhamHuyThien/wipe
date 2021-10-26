@@ -20,7 +20,7 @@ function Contacts() {
                 <h1>Contacts</h1>
                 <div className="list-group" id="contacts" role="tablist">
                     <ListFriendRequest></ListFriendRequest>
-                    {/* <ListFriend></ListFriend> */}
+                    <ListFriend></ListFriend>
                 </div>
             </div>
         </div>

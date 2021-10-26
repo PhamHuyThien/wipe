@@ -1,14 +1,17 @@
 import { useSelector } from "react-redux";
 
 function ListFriend() {
-    const listFriendRequest = useSelector(state => state.listFriendRequest.list);
-    return listFriendRequest.map((friend) => {
-        return <Friend></Friend>;
+    const listFriend = useSelector(state => state.listFriend.list);
+    return listFriend.map((friend, id) => {
+        return <Friend id={friend.id} avatar={friend.profile.avatar.url} firstName={friend.profile.firstName} lastName={friend.profile.lastName} key={id}></Friend>;
     });
 }
 function Friend({
-    avatar, firstName, lastName,
+    id, avatar, firstName, lastName,
 }) {
+    function onclickOpenMessageHandle(evt, id) {
+
+    }
     return (
         <a href="#" className="filterMembers all online contact" data-toggle="list">
             <img className="avatar-md" src={avatar} data-toggle="tooltip" data-placement="top" title={firstName + "  " + lastName} alt="avatar" />
@@ -17,10 +20,10 @@ function Friend({
             </div>
             <div className="data">
                 <h5>{firstName + "  " + lastName}</h5>
-                <p>Lính mới</p>
+                <p>Bạn bè</p>
             </div>
-            <div className="person-add">
-                <i className="material-icons">person</i>
+            <div className="person-add" onClick={(evt) => onclickOpenMessageHandle(evt, id)}>
+                <i className="material-icons">message</i>
             </div>
         </a>
     );

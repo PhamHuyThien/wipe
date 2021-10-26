@@ -55,6 +55,16 @@ function Register() {
                                         <form className="signup" onSubmit={handleSubmit(onSubmitForm)}>
                                             <div className="form-parent">
                                                 <div className="form-group">
+                                                    <input type="text" {...register("firstName")} className="form-control" placeholder="First name" required />
+                                                    <button className="btn icon"><i className="material-icons">person_outline</i></button>
+                                                </div>
+                                                <div className="form-group">
+                                                    <input type="text" {...register("lastName")} className="form-control" placeholder="Last name" required />
+                                                    <button className="btn icon"><i className="material-icons">person_outline</i></button>
+                                                </div>
+                                            </div>
+                                            <div className="form-parent">
+                                                <div className="form-group">
                                                     <input type="text" {...register("username")} className="form-control" placeholder="Username" required />
                                                     <button className="btn icon"><i className="material-icons">person_outline</i></button>
                                                 </div>

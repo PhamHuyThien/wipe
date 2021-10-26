@@ -1,15 +1,17 @@
 import { useSelector } from "react-redux";
 import SocketUtil from "../../../util/SocketUtil";
 
+function onClickLogoutHandler() {
+    if (SocketUtil.socket != null) {
+        SocketUtil.socket.disconnect();
+    }
+    localStorage.removeItem("token");
+    window.location.href = "/";
+}
+
 function Navigation() {
     const avatar = useSelector((state) => state.userInfo.userInfo.profile.avatar.url);
-    function onClickLogoutHandler() {
-        if (SocketUtil.socket != null) {
-            SocketUtil.socket.disconnect();
-        }
-        localStorage.removeItem("token");
-        window.location.href = "/";
-    }
+
     return (
         <div className="navigation">
             <div className="container">
@@ -42,5 +44,5 @@ function Navigation() {
         </div>
     );
 }
-
+export { onClickLogoutHandler };
 export default Navigation;

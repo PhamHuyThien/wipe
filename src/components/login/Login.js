@@ -28,7 +28,6 @@ function Login() {
         let result = await axios.post(Server.API_LOGIN, forms).catch(function (err) {
             return { data: err.response.data };
         });
-        console.log(result);
         if (result.data.status === true) {
             if (SocketUtil.connected) {
                 SocketUtil.socket.disconnect();

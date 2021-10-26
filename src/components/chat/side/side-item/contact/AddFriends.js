@@ -1,15 +1,16 @@
+import debounce from "@mui/utils/debounce";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import Server from "../../../../../constaint/Server";
 import Toast from "../../../../../util/Toast";
+
 function AddFriends() {
     const firstName = useSelector(state => state.userInfo.userInfo.profile.firstName);
     const [contact, setContact] = useState({ id: -1, contactJSX: <div></div> });
     const { handleSubmit } = useForm();
     const token = localStorage.getItem("token");
-
 
     async function onChangeSearchHandler(evt) {
         let value = evt.target.value;
@@ -77,15 +78,15 @@ function AddFriends() {
                     <div className="content">
                         <form onSubmit={handleSubmit(onSubmitSendFriendRequestHandle)}>
                             <div className="form-group">
-                                <label htmlFor="user">Tên tài khoản:</label>
-                                <input type="text" className="form-control" onChange={onChangeSearchHandler} placeholder="phamhuythien" required />
+                                <label htmlFor="user">Tên tài khoản hoặc email:</label>
+                                <input type="text" className="form-control" onChange={debounce(onChangeSearchHandler, 1000)} placeholder="phamhuythien" required />
                                 {contact.contactJSX}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="welcome">Tin nhắn:</label>
                                 <textarea className="text-control" id="welcome" placeholder={"xin chào bạn, mình là " + firstName + "..."} />
                             </div>
-                            <button type="submit" className="btn button w-100" >Gửi lời mời kết bạn: </button>
+                            <button type="submit" className="btn button w-100" >Gửi lời mời kết bạn</button>
                         </form>
                     </div>
                 </div>
