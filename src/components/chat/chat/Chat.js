@@ -1,7 +1,31 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import SocketUtil from "../../../util/SocketUtil";
 import MessageMe from "./MessageMe";
 import MessageYou from "./MessageYou";
 
 function Chat() {
+    const listMessages = useSelector(state => state.listMessages);
+
+        function NoMessages() {
+        return (
+            <div className="no-messages">
+                <i className="material-icons md-48">forum</i>
+                <p>Loading....</p>
+            </div>
+        );
+    }
+
+    function Yesterday() {
+        return (
+            <div className="date">
+                <hr />
+                <span>Yesterday</span>
+                <hr />
+            </div>
+        );
+    }
+
     return (
         <div className="main">
             <div className="tab-content" id="nav-tabContent">
@@ -13,13 +37,13 @@ function Chat() {
                             <div className="container">
                                 <div className="col-md-12">
                                     <div className="inside">
-                                        <a href="#"><img className="avatar-md" src="assets/img/avatars/avatar-female-5.jpg" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar" /></a>
+                                        <a href="#"><img className="avatar-md" src={listMessages.conversation.image?.url} data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar" /></a>
                                         <div className="status">
                                             <i className="material-icons online">fiber_manual_record</i>
                                         </div>
                                         <div className="data">
-                                            <h5><a href="#">Keith Morris</a></h5>
-                                            <span>Active now</span>
+                                            <h5><a href="#">{listMessages.conversation.name}</a></h5>
+                                            <span>Đang hoạt động</span>
                                         </div>
                                         <button className="btn connect d-md-block d-none" name={1}><i className="material-icons md-30">phone_in_talk</i></button>
                                         <button className="btn connect d-md-block d-none" name={1}><i className="material-icons md-36">videocam</i></button>
@@ -40,20 +64,13 @@ function Chat() {
                             </div>
                         </div>
                         {/* empty */}
-                        <div className="content"> 
+                        <div className="content">
                             <div className="container">
                                 <div className="col-md-12">
-                                    {/* <div className="no-messages">
-                                        <i className="material-icons md-48">forum</i>
-                                        <p>Loading....</p>
-                                    </div> */}
-                                    {/* <div className="date">
-                                        <hr />
-                                        <span>Yesterday</span>
-                                        <hr />
-                                    </div> */}
-                                    <MessageMe content="aihihih" time="12h AM" attachments={[{fileName: "anh thien", fileAddress: "https://fb.com/", fileSize: "500kb", fileType: "Json"}]}></MessageMe>                                    
-                                    <MessageYou avatar="" name="jony dang" content="aihihih" time="12h AM" attachments={[{fileName: "anh thien", fileAddress: "https://fb.com/", fileSize: "500kb", fileType: "Json"}]} ></MessageYou>                                    
+
+
+                                    <MessageMe content="aihihih" time="12h AM" attachments={[{ fileName: "anh thien", fileAddress: "https://fb.com/", fileSize: "500kb", fileType: "Json" }]}></MessageMe>
+                                    <MessageYou avatar="" name="jony dang" content="aihihih" time="12h AM" attachments={[{ fileName: "anh thien", fileAddress: "https://fb.com/", fileSize: "500kb", fileType: "Json" }]} ></MessageYou>
                                 </div>
                             </div>
                         </div>

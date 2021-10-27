@@ -2,8 +2,9 @@ import debounce from "@mui/utils/debounce";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Server from "../../../../../constaint/Server";
+import { loadingOpen } from "../../../../../redux/LoadingSlice";
 import Toast from "../../../../../util/Toast";
 
 function AddFriends() {
@@ -11,8 +12,10 @@ function AddFriends() {
     const [contact, setContact] = useState({ id: -1, contactJSX: <div></div> });
     const { handleSubmit } = useForm();
     const token = localStorage.getItem("token");
+    const dispatch = useDispatch();
 
     async function onChangeSearchHandler(evt) {
+        dispatch(loadingOpen(true));
         let value = evt.target.value;
         let result = await axios.get(Server.API_SEARCH_FRIEND + `?search=${encodeURIComponent(value)}`, {
             headers: { "Authorization": "Bearer " + token }
@@ -28,6 +31,7 @@ function AddFriends() {
         } else {
             setContact({ id: -1, contactJSX: <div></div> });
         }
+        dispatch(loadingOpen(false));
     }
 
     async function onSubmitSendFriendRequestHandle() {
@@ -79,7 +83,7 @@ function AddFriends() {
                         <form onSubmit={handleSubmit(onSubmitSendFriendRequestHandle)}>
                             <div className="form-group">
                                 <label htmlFor="user">Tên tài khoản hoặc email:</label>
-                                <input type="text" className="form-control" onChange={debounce(onChangeSearchHandler, 1000)} placeholder="phamhuythien" required />
+                                <input type="text" className="form-control" onKeyDown={debounce(onChangeSearchHandler, 1000)} placeholder="phamhuythien" required />
                                 {contact.contactJSX}
                             </div>
                             <div className="form-group">
