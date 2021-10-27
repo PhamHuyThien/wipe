@@ -1,18 +1,22 @@
+import { useEffect } from "react";
+import { timeToHhIiDdMm } from "../../../util/DateUtils";
 import Attachments from "./Attachments";
 
-function MessageMe({
-    time, content, attachments = []
-}) {
+function MessageMe({ message }) {
+
+    useEffect(() => {
+
+    }, []);
     return (
         <div className="message me">
             <div className="text-main">
                 <div className="text-group me">
                     <div className="text me">
-                        <Attachments attachments={attachments}></Attachments>
-                        <p>{content}</p>
+                        <Attachments attachments={message.attachments}></Attachments>
+                        <p>{message.messages.message}</p>
+                        <span style={{fontSize: "12px", color: "#f9f9f9"}}>{timeToHhIiDdMm(message.messages?.createAt)}</span>
                     </div>
                 </div>
-                <span>{time}</span>
             </div>
         </div>
     );

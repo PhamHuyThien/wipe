@@ -23,7 +23,7 @@ function Contacts() {
                 return { data: err.response.data };
             });
             if (result.data.status === true) {
-                dispatch(listFriendSet(result.data.data));
+                dispatch(listFriendSet(result.data.data.map(friend => friend.user)));
             }
         }
         dispatch(loadingOpen(false));

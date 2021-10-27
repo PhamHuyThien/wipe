@@ -51,7 +51,6 @@ function ChatForm() {
                 break;
             case "LIST_MESSAGES":
                 if (checkResponse(json)) {
-                    console.log(json);
                     dispatch(listMessagesSetList(json.data));
                 }
                 break;

@@ -61,7 +61,7 @@ function FriendRequest({
                 <i className="material-icons">close</i>
             </div>
 
-            <div className="person-add" onClick={(evt) => onClickAcceptFriendHandle(evt, id)} style={{ color: "blue", marginRight: "20px" }}>
+            <div className="person-add" onClick={(evt) => onClickAcceptFriendHandle(evt, id)} >
                 <i className="material-icons">check</i>
             </div>
         </a>
