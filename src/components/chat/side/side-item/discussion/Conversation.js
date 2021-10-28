@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { listMessagesSetConversation } from "../../../../../redux/ListMessagesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { listMessagesSetConversation, listMessagesUnshiftList } from "../../../../../redux/ListMessagesSlice";
 import { timeToHhIiDdMm } from "../../../../../util/DateUtils";
 import SocketUtil from "../../../../../util/SocketUtil";
+import Toast from "../../../../../util/Toast";
 
 function Conversation({ conversation }) {
     const dispatch = useDispatch();
     const [read, setRead] = useState({ status: false, class: "", star: <div></div> });
+ 
     useEffect(() => {
         let newMessages = conversation.newMessages;
         let lastMessages = conversation.lastMessages;
-        let status = !(newMessages?.id == lastMessages?.id);
+        let status = !(newMessages?.id === lastMessages?.id);
         setRead({
             status: status,
             class: status ? "unread" : "read",
@@ -19,8 +21,38 @@ function Conversation({ conversation }) {
     }, [conversation]);
 
     function onClickOpenMessagesHandle() {
+        console.log("AAAAAAAAAAAAAAA");
         dispatch(listMessagesSetConversation(conversation));
         SocketUtil.socket.send(`/app/${SocketUtil.token}/list-messages`, JSON.stringify({ conversationId: conversation.id }));
+        if (SocketUtil.destination != null) {
+            SocketUtil.socket.unsubscribe(SocketUtil.destination.id);
+        }
+        SocketUtil.destination = SocketUtil.socket.subscribe(`/messages/conversation_${conversation.id}`, socketConversationCallback);
+    }
+
+    
+    function socketConversationCallback(data) {
+        let json = JSON.parse(data.body);
+        switch (json.type) {
+            case "SEND_MESSAGES":
+                if (checkResponse(json)) {
+                    dispatch(listMessagesUnshiftList(json.data));
+                }
+                break;
+            default:
+                break;
+        }
+
+        function checkResponse(resp) {
+            if (resp.status === false) {
+                Toast.fire({
+                    icon: "error",
+                    title: resp.message
+                });
+                return false;
+            }
+            return true;
+        }
     }
 
     function Status() {

@@ -19,14 +19,14 @@ function ChatForm() {
         if (SocketUtil.connected === false) {
             window.location.href = "/";
         }
-        SocketUtil.socket.subscribe(`/messages/${SocketUtil.token}`, SocketCallback);
+        SocketUtil.socket.subscribe(`/messages/${SocketUtil.token}`, socketCallback);
         SocketUtil.socket.send(`/app/${SocketUtil.token}/user-info`);
         SocketUtil.socket.send(`/app/${SocketUtil.token}/list-friend-request`);
         SocketUtil.socket.send(`/app/${SocketUtil.token}/list-friend`);
         SocketUtil.socket.send(`/app/${SocketUtil.token}/list-conversation`);
     }, []);
 
-    function SocketCallback(data) {
+    function socketCallback(data) {
         let json = JSON.parse(data.body);
         switch (json.type) {
             case "USER_INFO":
@@ -52,9 +52,11 @@ function ChatForm() {
             case "LIST_MESSAGES":
                 if (checkResponse(json)) {
                     dispatch(listMessagesSetList(json.data));
+                    SocketUtil.socket.send(`/app/${SocketUtil.token}/list-conversation`);
                 }
                 break;
             default:
+                checkResponse(json);
                 break;
         }
 

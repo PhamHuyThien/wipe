@@ -12,6 +12,12 @@ export const ListMessagesSlice = createSlice({
         listMessagesSetList: (state, action) => {
             state.list = action.payload;
         },
+        listMessagesPushList: (state, action) => {
+            state.list.push(action.payload);
+        },
+        listMessagesUnshiftList: (state, action) => {
+            state.list.unshift(action.payload);
+        },
         listMessagesSetConversation: (state, action) => {
             state.conversation = action.payload;
         },
@@ -22,6 +28,12 @@ export const ListMessagesSlice = createSlice({
 });
 
 
-export const { listMessagesSetList, listMessagesSetConversation, listMessagesSetSubcribe } = ListMessagesSlice.actions;
+export const { 
+    listMessagesSetList, 
+    listMessagesPushList, 
+    listMessagesUnshiftList, 
+    listMessagesSetConversation, 
+    listMessagesSetSubcribe 
+} = ListMessagesSlice.actions;
 
 export default ListMessagesSlice.reducer;

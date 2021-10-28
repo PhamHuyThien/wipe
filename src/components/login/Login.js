@@ -79,7 +79,7 @@ function Login() {
                             <div className="container">
                                 <div className="col-md-12">
                                     <div className="content">
-                                        <h1>Sign in to Swipe</h1>
+                                        <h1>Đăng nhập WipeChat</h1>
                                         <div className="third-party">
                                             <button className="btn item bg-blue">
                                                 <i className="material-icons">pages</i>
@@ -91,19 +91,19 @@ function Login() {
                                                 <i className="material-icons">whatshot</i>
                                             </button>
                                         </div>
-                                        <p>or use your email account:</p>
+                                        <p>hoặc đăng nhập bằng tài khoản: </p>
                                         <form onSubmit={handleSubmit(onClickLoginHandler)}>
                                             <div className="form-group">
-                                                <input type="text" {...register("username")} className="form-control" placeholder="Username" required />
-                                                <button className="btn icon"><i className="material-icons">mail_outline</i></button>
+                                                <input type="text" {...register("username")} className="form-control" placeholder="Tài khoản" required />
+                                                <button className="btn icon"><i className="material-icons">perm_identity</i></button>
                                             </div>
                                             <div className="form-group">
-                                                <input type="password" {...register("password")} className="form-control" placeholder="Password" required />
+                                                <input type="password" {...register("password")} className="form-control" placeholder="Mật khẩu" required />
                                                 <button className="btn icon"><i className="material-icons">lock_outline</i></button>
                                             </div>
-                                            <button type="submit" className="btn button">Sign In</button>
+                                            <button type="submit" className="btn button">Đăng nhập</button>
                                             <div className="callout">
-                                                <span>Don't have account? <button href="#" onClick={onClickRegisterHandler}>Create Account</button></span>
+                                                <span>Don't have account? <a href="#" onClick={onClickRegisterHandler}>Create Account</a></span>
                                             </div>
                                         </form>
                                     </div>
@@ -117,9 +117,9 @@ function Login() {
                         <div className="container">
                             <div className="col-md-12">
                                 <div className="preference">
-                                    <h2>Hello, Friend!</h2>
-                                    <p>Enter your personal details and start your journey with Swipe today.</p>
-                                    <button href="#" className="btn button" onClick={onClickRegisterHandler}>Sign Up</button>
+                                    <h2>Xin chào bạn!</h2>
+                                    <p>Nhập thông tin cá nhân của bạn và bắt đầu hành trình của bạn với WipeChat ngay hôm nay.</p>
+                                    <button href="#" className="btn button" onClick={onClickRegisterHandler}>Đăng kí</button>
                                 </div>
                             </div>
                         </div>

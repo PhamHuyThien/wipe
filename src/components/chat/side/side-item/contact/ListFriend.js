@@ -8,7 +8,7 @@ function ListFriend() {
     });
 }
 function Friend({
-    id, avatar, firstName, lastName,
+    id, avatar, firstName, lastName
 }) {
     const token = localStorage.getItem("token");
     const dispatch = useDispatch();

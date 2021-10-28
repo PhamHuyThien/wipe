@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import SocketUtil from "../../../util/SocketUtil";
@@ -6,9 +6,31 @@ import MessageMe from "./MessageMe";
 import MessageYou from "./MessageYou";
 
 function Chat() {
+    const divRef = useRef(null);
     const listMessages = useSelector(state => state.listMessages);
     const userInfo = useSelector(state => state.userInfo);
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, setValue } = useForm();
+
+
+    useEffect(() => {
+        if (divRef.current) {
+            divRef.current.scrollIntoView(
+                {
+                    behavior: 'smooth',
+                    block: 'end',
+                    inline: 'nearest'
+                })
+        }
+    });
+
+    function onKeyDownEnterHandle(evt) {
+        if (evt.keyCode === 13 && !evt.shiftKey) {
+            console.log(evt.key);
+            handleSubmit(onClickSendHandle)();
+            setTimeout(()=>setValue("content", ""), 5);
+        }
+    }
+
     function NoMessages() {
         return (
             <div className="no-messages">
@@ -28,8 +50,15 @@ function Chat() {
         );
     }
 
-    function onClickSendHandle() {
-
+    function onClickSendHandle(data) {
+        let conversationId = listMessages.conversation.id;
+        SocketUtil.socket.send(`/app/conversation_${conversationId}/send-messages`, JSON.stringify({
+            conversationId: conversationId,
+            message: data.content,
+            attachments: [],
+            qouteId: -1
+        }));
+        setValue("content", "");
     }
 
     return (
@@ -45,12 +74,12 @@ function Chat() {
                                     {
                                         listMessages.conversation.name != null && (
                                             <div className="inside">
-                                                <a href="#"><img className="avatar-md" src={listMessages.conversation.image?.url} data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar" /></a>
+                                                <img className="avatar-md" src={listMessages.conversation.image?.url} data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar" />
                                                 <div className="status">
                                                     <i className="material-icons online">fiber_manual_record</i>
                                                 </div>
                                                 <div className="data">
-                                                    <h5><a href="#">{listMessages.conversation.name}</a></h5>
+                                                    <h5>{listMessages.conversation.name}</h5>
                                                     <span>Đang hoạt động</span>
                                                 </div>
                                                 <button className="btn connect d-md-block d-none" name={1}><i className="material-icons md-30">phone_in_talk</i></button>
@@ -76,10 +105,10 @@ function Chat() {
                         {/* empty */}
                         <div className="content">
                             <div className="container">
-                                <div className="col-md-12">
+                                <div className="col-md-12" ref={divRef}>
                                     {
-                                        listMessages.list.length == 0 ? <NoMessages></NoMessages> : listMessages.list.map((message, id) => {
-                                            if (message.userInfoResponse.id == userInfo.userInfo.id) {
+                                        listMessages.list.length === 0 ? <NoMessages></NoMessages> : listMessages.list.slice().reverse().map((message, id) => {
+                                            if (message.user.id === userInfo.userInfo.id) {
                                                 return <MessageMe message={message} key={id}></MessageMe>;
                                             }
                                             return <MessageYou message={message} key={id}></MessageYou>;
@@ -93,11 +122,11 @@ function Chat() {
                                 <div className="container">
                                     <div className="col-md-12">
                                         <div className="bottom">
-                                            <form className="position-relative w-100">
-                                                <textarea className="form-control" placeholder="Nhập nội dung..." rows={1} defaultValue={""} />
-                                                <button className="btn emoticons"><i className="material-icons" onClick={evt => evt.preventDefault()}>insert_emoticon</i></button>
+                                            <div className="position-relative w-100">
+                                                <textarea className="form-control" {...register("content")} placeholder="Nhập nội dung..." rows={1} onKeyDown={onKeyDownEnterHandle}/>
+                                                <button className="btn emoticons"><i className="material-icons">insert_emoticon</i></button>
                                                 <button type="submit" className="btn send"><i className="material-icons" onClick={handleSubmit(onClickSendHandle)}>send</i></button>
-                                            </form>
+                                            </div>
                                             <label>
                                                 <input type="file" />
                                                 <span className="btn attach d-sm-block d-none"><i className="material-icons">attach_file</i></span>

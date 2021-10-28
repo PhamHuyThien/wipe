@@ -16,7 +16,7 @@ function Settings() {
                 <div className="profile">
                     <img className="avatar-xl" src={userInfo.profile.avatar.url} alt="avatar" />
                     <h1><a href="#">{userInfo.profile.firstName + " " + userInfo.profile.lastName}</a></h1>
-                    <span>Lính mới</span>
+                    <span>{"@"+userInfo.username}</span>
                     <div className="stats">
                         <div className="item">
                             <h2>0</h2>
@@ -31,12 +31,12 @@ function Settings() {
                 <div className="categories" id="accordionSettings">
                     <h1>Settings</h1>
                     <MyAccount></MyAccount>
-                    <ChatSetting></ChatSetting>
+                    {/* <ChatSetting></ChatSetting>
                     <NotificationSetting></NotificationSetting>
                     <ConnectionSetting></ConnectionSetting>
                     <AppearanceSetting></AppearanceSetting>
                     <LanguageSetting></LanguageSetting>
-                    <FrivateSetting></FrivateSetting>
+                    <FrivateSetting></FrivateSetting> */}
                     <PowerOffSetting></PowerOffSetting>
                 </div>
             </div>
