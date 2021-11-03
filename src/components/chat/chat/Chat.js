@@ -14,12 +14,11 @@ function Chat() {
 
     useEffect(() => {
         if (divRef.current) {
-            divRef.current.scrollIntoView(
-                {
+            divRef.current.scrollIntoView({
                     behavior: 'smooth',
                     block: 'end',
                     inline: 'nearest'
-                })
+                });
         }
     });
 

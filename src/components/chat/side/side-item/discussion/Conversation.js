@@ -21,7 +21,6 @@ function Conversation({ conversation }) {
     }, [conversation]);
 
     function onClickOpenMessagesHandle() {
-        console.log("AAAAAAAAAAAAAAA");
         dispatch(listMessagesSetConversation(conversation));
         SocketUtil.socket.send(`/app/${SocketUtil.token}/list-messages`, JSON.stringify({ conversationId: conversation.id }));
         if (SocketUtil.destination != null) {

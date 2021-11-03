@@ -1,13 +1,34 @@
+import axios from "axios";
 import { debounce } from "lodash";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Server from "../../../../constaint/Server";
+import { listConversationSet } from "../../../../redux/ListConversationSlice";
+import { loadingOpen } from "../../../../redux/LoadingSlice";
+import SocketUtil from "../../../../util/SocketUtil";
 import Conversation from "./discussion/Conversation";
 
 
 function Discussions() {
+    const token = localStorage.getItem("token");
+    const dispatch = useDispatch();
     const listConversation = useSelector(state => state.listConversation.list);
 
-    function onKeyDownSearchConversationHandle(evt){
+    async function onKeyDownSearchConversationHandle(evt){
+        dispatch(loadingOpen(true));
         let value = evt.target.value;
+        if (value === "") {
+            SocketUtil.socket.send(`/app/${SocketUtil.token}/list-conversation`);
+        } else {
+            let result = await axios.get(Server.API_SEARCH_CONVERSATION + `?search=${encodeURIComponent(value)}`, {
+                headers: { "Authorization": "Bearer " + token }
+            }).catch(function (err) {
+                return { data: err.response.data };
+            });
+            if (result.data.status === true) {
+                dispatch(listConversationSet(result.data.data));
+            }
+        }
+        dispatch(loadingOpen(false));
     }
     return (
         <div id="discussions" className="tab-pane fade active show">

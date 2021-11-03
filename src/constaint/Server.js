@@ -11,7 +11,9 @@ const Server = {
     API_ACCEPT_FRIEND: API + "/api/v1/friends/accept-friend",
     API_UNFRIEND: API + "/api/v1/friends/unfriend",
     API_SEARCH_FRIEND_ACCEPT: API + "/api/v1/friends/search-friend-accept",
-    API_CREATE_CONVERSATION: API + "/api/v1/messages/create-conversation"
+    API_CREATE_CONVERSATION: API + "/api/v1/messages/create-conversation",
+    API_SEARCH_CONVERSATION: API + "/api/v1/messages/search-conversation",
+    API_UPDATE_PROFILE: API + "/api/v1/user/update-info",
 }
 
 export default Server;

@@ -19,11 +19,11 @@ function Settings() {
                     <span>{"@"+userInfo.username}</span>
                     <div className="stats">
                         <div className="item">
-                            <h2>0</h2>
+                            <h2>{userInfo.totalFriend}</h2>
                             <h3>Bạn bè</h3>
                         </div>
                         <div className="item">
-                            <h2>0</h2>
+                            <h2>{userInfo.totalConversation}</h2>
                             <h3>Cuộc trò chuyện</h3>
                         </div>
                     </div>
