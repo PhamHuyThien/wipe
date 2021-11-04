@@ -14,6 +14,7 @@ const Server = {
     API_CREATE_CONVERSATION: API + "/api/v1/messages/create-conversation",
     API_SEARCH_CONVERSATION: API + "/api/v1/messages/search-conversation",
     API_UPDATE_PROFILE: API + "/api/v1/user/update-info",
+    API_UPLOAD_FILE: API+"/api/v1/files/upload"
 }
 
 export default Server;

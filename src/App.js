@@ -16,12 +16,13 @@ import SocketUtil from "./util/SocketUtil";
 function Content() {
     const history = useHistory();
     const dispatch = useDispatch();
+
     useEffect(() => {
-        dispatch(loadingOpen(true));
         checkToken();
-    });
+    }, []);
 
     async function checkToken() {
+        dispatch(loadingOpen(true));
         let token = localStorage.getItem("token");
         if (token != null) {
             let result = await axios.post(Server.API_CHECK_TOKEN, { token: token }).catch((err) => {

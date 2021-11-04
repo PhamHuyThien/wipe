@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -12,6 +12,7 @@ function MyAccount() {
     const token = localStorage.getItem("token");
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.userInfo.userInfo);
+    const [avt, setAvt] = useState("");
     const { register, handleSubmit, setValue, reset } = useForm();
     useEffect(() => {
         reset({
@@ -20,6 +21,7 @@ function MyAccount() {
             email: userInfo.email,
             address: userInfo.profile.address,
         });
+        setAvt(userInfo.profile.avatar.url);
     }, [userInfo]);
     async function onclickUpdateProfileHandle(forms) {
         dispatch(loadingOpen(true));
@@ -46,6 +48,26 @@ function MyAccount() {
         });
         dispatch(loadingOpen(false));
     }
+
+    async function onChangeFileUploadHandle(evt){
+        dispatch(loadingOpen(true));
+        let file = evt.target.files[0];
+        if(file != null){
+            let formData = new FormData();
+            formData.append("file", file);
+            let result = await axios.post(Server.API_UPLOAD_FILE, formData, {
+                headers: { "Authorization": "Bearer " + token }
+            }).catch(function (err) {
+                return { data: err.response.data };
+            });
+            if(result.data.status){
+                setAvt(Server.API+result.data.data.path);
+                setValue("image", Server.API+result.data.data.path);
+            }
+        }
+        dispatch(loadingOpen(false));
+    }
+
     return (
         <div className="category">
             <a href="#" className="title collapsed" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -60,9 +82,9 @@ function MyAccount() {
                 <div className="content">
                     <div className="upload">
                         <div className="data">
-                            <img className="avatar-xl" src={userInfo.profile.avatar.url} alt="image" />
+                            <img className="avatar-xl" src={avt} alt="image" />
                             <label>
-                                <input type="file" />
+                                <input type="file" onChange={onChangeFileUploadHandle} accept="image/*"/>
                                 <span className="btn button">Đổi ảnh đại diện</span>
                             </label>
                         </div>
