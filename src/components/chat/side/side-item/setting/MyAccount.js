@@ -82,7 +82,7 @@ function MyAccount() {
                 <div className="content">
                     <div className="upload">
                         <div className="data">
-                            <img className="avatar-xl" src={avt} alt="image" />
+                            <img className="avatar-xl" src={avt} alt="image" style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "100%", marginLeft: "10px", position: "relative", top: "-15px" }}/>
                             <label>
                                 <input type="file" onChange={onChangeFileUploadHandle} accept="image/*"/>
                                 <span className="btn button">Đổi ảnh đại diện</span>

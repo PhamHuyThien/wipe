@@ -18,7 +18,7 @@ function Navigation() {
                 <div className="inside">
                     <div className="nav nav-tab menu">
                         <button className="btn">
-                            <img className="avatar-xl" src={avatar} alt="avatar" />
+                            <img className="avatar-xl" src={avatar} alt="avatar" style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "100%", marginLeft: "10px", position: "relative", top: "-15px" }}/>
                         </button>
                         <a href="#members" data-toggle="tab">
                             <i className="material-icons">account_circle</i>

@@ -14,7 +14,7 @@ function Settings() {
         <div className="tab-pane fade" id="settings">
             <div className="settings">
                 <div className="profile">
-                    <img className="avatar-xl" src={userInfo.profile.avatar.url} alt="avatar" />
+                    <img className="avatar-xl" src={userInfo.profile.avatar.url} alt="avatar" style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "100%", marginLeft: "10px", position: "relative", top: "-15px" }} />
                     <h1><a href="#">{userInfo.profile.firstName + " " + userInfo.profile.lastName}</a></h1>
                     <span>{"@"+userInfo.username}</span>
                     <div className="stats">
