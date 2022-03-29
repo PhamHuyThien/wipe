@@ -19,7 +19,7 @@ function Login() {
 
     useEffect(() => {
         if (SocketUtil.connected) {
-            dispatch("/chats");
+            history("/chats");
         }
     });
 

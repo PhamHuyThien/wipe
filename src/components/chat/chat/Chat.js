@@ -1,24 +1,30 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import SocketUtil from "../../../util/SocketUtil";
 import MessageMe from "./MessageMe";
 import MessageYou from "./MessageYou";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loadingOpen } from "../../../redux/LoadingSlice";
+import Server from "../../../constaint/Server";
 
 function Chat() {
+    const dispatch = useDispatch();
     const divRef = useRef(null);
     const listMessages = useSelector(state => state.listMessages);
     const userInfo = useSelector(state => state.userInfo);
     const { register, handleSubmit, setValue } = useForm();
-
+    const [link, setLink] = useState(null);
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         if (divRef.current) {
             divRef.current.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'end',
-                    inline: 'nearest'
-                });
+                behavior: 'smooth',
+                block: 'end',
+                inline: 'nearest'
+            });
         }
     });
 
@@ -26,7 +32,7 @@ function Chat() {
         if (evt.keyCode === 13 && !evt.shiftKey) {
             console.log(evt.key);
             handleSubmit(onClickSendHandle)();
-            setTimeout(()=>setValue("content", ""), 5);
+            setTimeout(() => setValue("content", ""), 5);
         }
     }
 
@@ -49,14 +55,59 @@ function Chat() {
         );
     }
 
+    function AttachFile() {
+        function onChangeUploadFile(btn) {
+            let value = btn.target.files[0];
+            let formData = new FormData();
+            formData.append("file", value);
+            dispatch(loadingOpen(true));
+            axios.post(Server.API_UPLOAD_FILE, formData, {
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }).then(data => {
+                if (data.data.status) {
+                    setLink(data.data.data);
+                }
+            }).catch(err => {
+
+            }).then(() => {
+                dispatch(loadingOpen(false));
+            });
+        }
+        return (
+            <label>
+                <input type="file" onChange={onChangeUploadFile} />
+                <span className="btn attach d-sm-block d-none"><i className="material-icons">attach_file</i></span>
+            </label>
+        );
+    }
+
+    function ImageFile(link) {
+        function onClickCloseImage() {
+            setLink(null);
+        }
+        const attachmentFile = <i className="material-icons" style={{ color: "#6fbfff", marginTop: "5px", fontSize: "55px", borderRadius: "100%", marginLeft: "10px", position: "relative", top: "-15px" }}>insert_drive_file</i>;
+        const attachmentImage = <img src={Server.API + link.link.path} style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "100%", marginLeft: "10px", position: "relative", top: "-15px" }}></img>;
+        return (
+            <div>
+                <i className="material-icons" onClick={onClickCloseImage} style={{ position: "relative", left: "55px", top: "12px", color: "white", zIndex: "1", fontSize: "15px", backgroundColor: "red", borderRadius: "100%", cursor: "pointer" }}>close</i>
+                {["png", "jpg", "jpeg", "gif"].indexOf(link.link.type) == -1 ? attachmentFile : attachmentImage}
+            </div>
+        );
+    }
+
     function onClickSendHandle(data) {
         let conversationId = listMessages.conversation.id;
+        console.log(link);
+        let file = link ? [{ ...link, url: link.path }] : [];
         SocketUtil.socket.send(`/app/conversation_${conversationId}/send-messages`, JSON.stringify({
             conversationId: conversationId,
             message: data.content,
-            attachments: [],
+            attachments: file,
             qouteId: -1
         }));
+        setLink(null);
         setValue("content", "");
     }
 
@@ -120,16 +171,17 @@ function Chat() {
                             listMessages.conversation.name != null && (
                                 <div className="container">
                                     <div className="col-md-12">
-                                        <div className="bottom">
+                                        <div className="bottom" style={{ padding: "0px" }}>
                                             <div className="position-relative w-100">
-                                                <textarea className="form-control" {...register("content")} placeholder="Nhập nội dung..." rows={1} onKeyDown={onKeyDownEnterHandle}/>
+                                                <textarea className="form-control" {...register("content")} placeholder="Nhập nội dung..." rows={1} onKeyDown={onKeyDownEnterHandle} />
                                                 <button className="btn emoticons"><i className="material-icons">insert_emoticon</i></button>
                                                 <button type="submit" className="btn send"><i className="material-icons" onClick={handleSubmit(onClickSendHandle)}>send</i></button>
                                             </div>
-                                            <label>
-                                                <input type="file" />
-                                                <span className="btn attach d-sm-block d-none"><i className="material-icons">attach_file</i></span>
-                                            </label>
+                                            <div>
+                                                {
+                                                    link ? <ImageFile link={link}></ImageFile> : <AttachFile></AttachFile>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

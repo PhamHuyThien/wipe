@@ -5,7 +5,7 @@ import Attachments from "./Attachments";
 function MessageMe({ message }) {
 
     useEffect(() => {
-
+        console.log(message);
     }, []);
     return (
         <div className="message me">
